@@ -9586,7 +9586,9 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 
 
-if(_actions_github__WEBPACK_IMPORTED_MODULE_1__.context.eventName !== 'pull_request') {
+const allowedEvents = ['pull_request', 'pull_request_target']
+
+if(!allowedEvents.includes(_actions_github__WEBPACK_IMPORTED_MODULE_1__.context.eventName)) {
   console.log(`continue-on-error-comment is designed to be used with pull request and does not work with a [${_actions_github__WEBPACK_IMPORTED_MODULE_1__.context.eventName}] event. We are ignoring this event.`);
 } else {
   try {
