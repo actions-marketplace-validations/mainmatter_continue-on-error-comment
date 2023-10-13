@@ -5,7 +5,9 @@ import getPullRequest from './lib/get-pull-request.js';
 
 import { signiture } from './lib/constants.js';
 
-if(context.eventName !== 'pull_request') {
+const allowedEvents = ['pull_request', 'pull_request_target']
+
+if(!allowedEvents.includes(context.eventName)) {
   console.log(`continue-on-error-comment is designed to be used with pull request and does not work with a [${context.eventName}] event. We are ignoring this event.`);
 } else {
   try {

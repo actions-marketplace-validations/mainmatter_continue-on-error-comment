@@ -67,12 +67,18 @@ If you do end up adding this action in a non-PR context then it is designed to j
 
 ### Permissions
 
-As this action needs to be able to comment back to your PR it might be necessary to add an explicit permission to the job: 
+As this action needs to be able to comment back to your PR, and if you want to have this functionality work from PRs created from forks in a public repo you will need to setup your `GITHUB_TOKEN` to have enough permissions.
+
+If you read the [GitHub documentation on `GITHUB_TOKEN`](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token) you will see that the "Maximum access \[level\] for pull requests from public forked repositories" is always `read` when you are using the `pull_request` event. If you want to allow forks to use the `continue-on-error-comment` action then you will need to update your workflow to be triggered by the `pull_request_target` event and **Make sure that you limit your permissions as demonstrated below**. If you don't limit the permissions on your workflow then the `GITHUB_TOKEN` will have standard read/write permissions as if you created the PR yourself and **this is a potential attack vector**. 
+
+You can limit the permissions that the `GITHUB_TOKEN` is given by specifying a `permissions` block in your workflow config.
 
 ```
 permissions:
   pull-requests: write
 ```
+
+You can read more about the permissions block in the [GitHub Actions Documentation](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions)
 
 ## Inputs
 
